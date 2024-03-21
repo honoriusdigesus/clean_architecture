@@ -7,6 +7,8 @@ import io.github.crud.infrastructure.persistence.PersonEntity;
 import io.github.crud.infrastructure.persistence.PersonEntityJpa;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class PersonGatewayRepository implements PersonGateway {
     private final PersonEntityJpa personEntityJpa;
@@ -22,6 +24,11 @@ public class PersonGatewayRepository implements PersonGateway {
         PersonEntity personEntity = personEntityMapper.toEntity(person);
         PersonEntity personSaved = personEntityJpa.save(personEntity);
         return personEntityMapper.toPerson(personSaved);
+    }
+
+    @Override
+    public Person find(UUID id) {
+        return personEntityMapper.toPerson(personEntityJpa.findById(id).orElseThrow(()->new RuntimeException("Person can not found")));
     }
 
 }
