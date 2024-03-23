@@ -31,4 +31,15 @@ public class PersonGatewayRepository implements PersonGateway {
         return personEntityMapper.toPerson(personEntityJpa.findById(id).orElseThrow(()->new RuntimeException("Person can not found")));
     }
 
+    @Override
+    public Person update(Person person) {
+        PersonEntity personFound = personEntityJpa.findById(person.id()).orElseThrow(()->new RuntimeException("Person can not found"));
+        if(personFound !=null){
+            PersonEntity personEntity = personEntityMapper.toEntity(person);
+            PersonEntity personSaved = personEntityJpa.save(personEntity);
+            return personEntityMapper.toPerson(personSaved);
+        }
+        return personEntityMapper.toPerson(personFound);
+    }
+
 }
