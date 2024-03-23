@@ -8,4 +8,5 @@ public interface PersonGateway {
     Person create(Person person);
     Person find(UUID id);
     Person update(Person person);
+    Person delete(UUID id);
 }

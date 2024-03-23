@@ -11,15 +11,17 @@ public class BeansConfig {
     public CreatePersonUseCase createPersonUseCase(PersonGateway personGateway){
         return new CreatePersonUseCaseImpl(personGateway);
     }
-
     @Bean
     public FindPersonByIdUseCase findPersonByIdUseCase(PersonGateway personGateway){
         return new findPersonByIdUseCaseImpl(personGateway);
     }
-
     @Bean
     public UpdatePersonUseCase updatePersonUseCase(PersonGateway personGateway){
         return new UpdatePersonUseCaseImpl(personGateway);
+    }
+    @Bean
+    public DeletePersonUseCase deletePersonUseCase(PersonGateway personGateway){
+        return new DeletePersonUseCaseImpl(personGateway);
     }
 
 }

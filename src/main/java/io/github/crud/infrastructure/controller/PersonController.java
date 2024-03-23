@@ -2,6 +2,7 @@ package io.github.crud.infrastructure.controller;
 
 import io.github.crud.core.entity.Person;
 import io.github.crud.core.usecases.CreatePersonUseCase;
+import io.github.crud.core.usecases.DeletePersonUseCase;
 import io.github.crud.core.usecases.FindPersonByIdUseCase;
 import io.github.crud.core.usecases.UpdatePersonUseCase;
 import io.github.crud.infrastructure.PersonDTO;
@@ -15,16 +16,18 @@ import java.util.UUID;
 public class PersonController {
     private final CreatePersonUseCase createPersonUseCase;
     private final FindPersonByIdUseCase findPersonByIdUseCase;
-
     private final UpdatePersonUseCase updatePersonUseCase;
+
+    private final DeletePersonUseCase deletePersonUseCase;
     private final PersonMapper personMapper;
 
 
-    public PersonController(CreatePersonUseCase createPersonUseCase, PersonMapper personMapper, FindPersonByIdUseCase findPersonByIdUseCase, UpdatePersonUseCase updatePersonUseCase) {
+    public PersonController(CreatePersonUseCase createPersonUseCase, PersonMapper personMapper, FindPersonByIdUseCase findPersonByIdUseCase, UpdatePersonUseCase updatePersonUseCase, DeletePersonUseCase deletePersonUseCase) {
         this.createPersonUseCase = createPersonUseCase;
         this.personMapper = personMapper;
         this.findPersonByIdUseCase = findPersonByIdUseCase;
         this.updatePersonUseCase = updatePersonUseCase;
+        this.deletePersonUseCase = deletePersonUseCase;
     }
 
     @PostMapping
@@ -42,5 +45,10 @@ public class PersonController {
     public PersonDTO updatePerson(@RequestBody PersonDTO personDTO){
         Person person = personMapper.toPerson(personDTO);
         return personMapper.toDTO(updatePersonUseCase.execute(person));
+    }
+
+    @DeleteMapping("/{uuid}")
+    public PersonDTO deletePersonById(@PathVariable UUID uuid){
+        return personMapper.toDTO(deletePersonUseCase.execute(uuid));
     }
 }

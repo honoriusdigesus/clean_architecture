@@ -42,4 +42,14 @@ public class PersonGatewayRepository implements PersonGateway {
         return personEntityMapper.toPerson(personFound);
     }
 
+    @Override
+    public Person delete(UUID id) {
+        PersonEntity personFound = personEntityJpa.findById(id).orElseThrow(()->new RuntimeException("Person can not found"));
+        if(personFound !=null){
+            personEntityJpa.delete(personFound);
+            return personEntityMapper.toPerson(personFound);
+        }
+        return personEntityMapper.toPerson(personFound);
+    }
+
 }
